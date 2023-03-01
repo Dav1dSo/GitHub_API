@@ -19,15 +19,10 @@
         background-color: #1C1C1C;
         color: white; 
     }
-
-    #table2 {
-        width: 50vw;
-        margin: auto;
-        box-shadow: 2px 2px 25px 2px #808080;
-    }
-
-    #table2 th {
-        background-color: #1E90FF;
+    
+    #avatar {
+        margin-left: 40%;
+        width: 200px;
     }
 
 </style>

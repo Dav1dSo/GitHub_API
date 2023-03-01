@@ -2,12 +2,15 @@
 
 @section('10primeiros')
 
+@foreach ($repositorios as $repo)
+@endforeach
 
 <div class="col-lg-8 my-5 mx-auto">
     <h1 class="display-5 text-center">Pesquisado: {{ $search }}</h1>
     <h2 class="text-center lead">Selecionados os 10 Primeiros repositórios !</h2>
+    <img id="avatar" src="{{ $repo['owner']['avatar_url'] }}" alt="">
 </div> 
-<table id="table2" class="table table-bordered">
+<table id="table" class="table table-bordered">
     <thead class="thead-dark">
         <tr>
             <th scope="col">Id</th>
@@ -26,7 +29,7 @@
             <td> {{ $repo['html_url'] }} </td>
             <td> {{ $repo['owner']['login'] }} </td>
             <td> {{ $repo['language'] }} </td>
-            <td> 90 </td>
+            <td> {{ $repo['size'] }} </td>
         </tr>
         @endforeach
     </tbody>

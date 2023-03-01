@@ -20,14 +20,12 @@ class SearchController extends Controller
         $resjson = $response->json();
         $repositorios = $resjson;
         $quantRepositorios = count($repositorios); // quantidade de repositorios
-        
-        $urlCommit = "https://api.github.com/repos/OWNER/REPO/stats/contributors";  
 
-        // return view('Show_Repositorios', 
-        //     [
-        //         'repositorios' => $repositorios,
-        //         'search' => $Search
-        //     ]);
+        return view('Show_Repositorios', 
+            [
+                'repositorios' => $repositorios,
+                'search' => $Search
+            ]);
 
 
 
