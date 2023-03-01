@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('organizacao');
             $table->string('linguagem')->default('não especificada');
             $table->integer('commits');
+            $table->string('imagem');
             $table->timestamps();
         });
     }

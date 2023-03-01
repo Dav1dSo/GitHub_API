@@ -23,23 +23,19 @@ class SearchController extends Controller
         $reposSave = new Repositorios;
 
         foreach($repositorios as $repos){
-            $reposSave->node_id = $repos['owner']['node_id'];
+            $reposSave->node_id = $repos['id'];
             $reposSave->name = $repos['name'];
             $reposSave->url = $repos['html_url'];
             $reposSave->organizacao = $repos['owner']['login'];
             $reposSave->linguagem = $repos['language'];
+            $reposSave->imagem = $repos['owner']['avatar_url'];
             $reposSave->commits = $repos['size'];
         };
-
-
-        $reposSave->save();
-            
-
-
-        // return view('Show_Repositorios', 
-        //     [
-        //         'repositorios' => $repositorios,
-        //         'search' => $Search
-        //     ]);
+        
+        return view('Show_Repositorios', 
+            [
+                'repositorios' => $reposSave,
+                'search' => $Search
+            ]);
     }
 }
