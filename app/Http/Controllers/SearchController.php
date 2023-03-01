@@ -5,15 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use  App\Models\Repositorios;
 
 class SearchController extends Controller
 {
-    public function Search(Request $request) {
-        $repositorioPesquisado = $request->search;
-
-    }
 
     public function ServiceApi(Request $request) {
+        // Conexão com Api
         $Search = $request->search; // nome pesquisado
         $url = "https://api.github.com/users/{$Search}/repos"; 
         $response = Http::get($url);
@@ -21,15 +19,27 @@ class SearchController extends Controller
         $repositorios = $resjson;
         $quantRepositorios = count($repositorios); // quantidade de repositorios
 
-        return view('Show_Repositorios', 
-            [
-                'repositorios' => $repositorios,
-                'search' => $Search
-            ]);
+        // Save values
+        $reposSave = new Repositorios;
+
+        foreach($repositorios as $repos){
+            $reposSave->node_id = $repos['owner']['node_id'];
+            $reposSave->name = $repos['name'];
+            $reposSave->url = $repos['html_url'];
+            $reposSave->organizacao = $repos['owner']['login'];
+            $reposSave->linguagem = $repos['language'];
+            $reposSave->commits = $repos['size'];
+        };
 
 
+        $reposSave->save();
+            
 
-        // return response($res);
 
+        // return view('Show_Repositorios', 
+        //     [
+        //         'repositorios' => $repositorios,
+        //         'search' => $Search
+        //     ]);
     }
 }
