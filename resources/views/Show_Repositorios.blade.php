@@ -23,7 +23,6 @@
     </thead>
     <tbody> 
         @foreach ($repositorios as $repo)
-
         <tr>
             <td scope="row">{{ $repositorios->node_id }}</td>
             <td> {{ $repositorios->name }} </td>
