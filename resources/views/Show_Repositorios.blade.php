@@ -1,7 +1,7 @@
 @extends('layouts.Main')
 
 @section('10primeiros')
-
+ 
 <div class="col-lg-8 my-5 mx-auto">
     <h1 class="display-5 text-center">Pesquisado: {{ $search }}</h1>
     <h2 class="text-center lead">Selecionados os 10 Primeiros repositórios !</h2>
