@@ -7,19 +7,23 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use  App\Models\Repositorios;
+use Illuminate\Support\Facades\DB;
 
 class SearchController extends Controller
 {
 
     public function ServiceApi(Request $request) {
+
+        // Token de requição
+
+        $Token;
+
         // Chamada para rpositorios
         $Search = $request->search; // nome pesquisado
-        // $url = "https://api.github.com/users/{$Search}/repos"; 
         $response = Http::withToken('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')->get("https://api.github.com/users/{$Search}/repos");;
         $resjson = $response->json();
         $repositorios = $resjson;
-        $quantRepositorios = count($repositorios); // quantidade de repositorios
-
+        $quantRepositorios = count($repositorios); // quantidade de repositorios  
         
         // Save values
         $reposSave = new Repositorios;
@@ -29,7 +33,8 @@ class SearchController extends Controller
 
             $commitsUrl = Http::withtoken('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')->get("https://api.github.com/repos/{$Search}/{$repos['name']}/commits");
             $commitsRes = $commitsUrl->json();
-            $commits = $commitsRes; 
+            $commits = $commitsRes;
+            $countCommits = count($commits);
 
             $reposSave->node_id = $repos['id'];
             $reposSave->name = $repos['name'];
@@ -37,16 +42,23 @@ class SearchController extends Controller
             $reposSave->organizacao = $repos['owner']['login'];
             $reposSave->linguagem = $repos['language'];
             $reposSave->imagem = $repos['owner']['avatar_url'];
-            $reposSave->commits = $repos['size'];
+            $reposSave->commits = $countCommits;
         };
         
-        dd($commits);
+        // Verifica se já não existe o mesmo repositorio cadastrodo
+        // $verifyId = DB::table('repositorios')
+        // ->selectRaw(' node_id ')->get();
+
+        // if($verifyId !== $reposSave->commits){
+        //     $reposSave->save();
+        // }
 
 
-        // return view('Show_Repositorios', 
-        //     [
-        //         'repositorios' => $reposSave,
-        //         'search' => $Search
-        //     ]);
+        return view('Show_Repositorios', 
+            [
+                'repositorios' => $repositorios,
+                'search' => $Search,
+                'commits' => $countCommits
+            ]);
     }
 }
