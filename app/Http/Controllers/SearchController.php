@@ -18,7 +18,7 @@ class SearchController extends Controller
         // Chamada para rpositorios
         $Search = $request->search; // nome pesquisado
 
-        $response = Http::withToken('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')->get("https://api.github.com/users/{$Search}/repos");
+        $response = Http::withToken('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')->get("https://api.github.com/users/{$Search}/repos");
         $resjson = $response->json();
         $repositorios = $resjson;
         $quantRepositorios = count($repositorios); // quantidade de repositorios  
@@ -29,7 +29,7 @@ class SearchController extends Controller
         foreach($repositorios as $repos){
             // Chamada para commits
 
-            $commitsUrl = Http::withtoken('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')->get("https://api.github.com/repos/{$Search}/{$repos['name']}/commits");
+            $commitsUrl = Http::withtoken('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')->get("https://api.github.com/repos/{$Search}/{$repos['name']}/commits");
             $commitsRes = $commitsUrl->json();
             $commits = sizeof($commitsRes);
             $commit = strval($commits);
@@ -43,17 +43,15 @@ class SearchController extends Controller
             $reposSave->commits = $commit;
 
             if( $commit > 10 ) {
-                $reposSave->save();
+                $verifyId = DB::table('repositorios')->where('url', '=' , '{$reposSave}')->get();
+                $verifyRes = count($verifyId);
+                
+                // // // Verifica se já não existe o mesmo repositorio cadastrodo
+                if($verifyRes !== 0) {
+                    $reposSave->save();
+                }
             }
         }
-
-        // Verifica se já não existe o mesmo repositorio cadastrodo
-        // $verifyId = DB::table('repositorios')
-        // ->selectRaw(' node_id ')->get();
-
-        // if($verifyId !== $reposSave->commits){
-        // }
-
 
         return view('Show_Repositorios', 
             [  
