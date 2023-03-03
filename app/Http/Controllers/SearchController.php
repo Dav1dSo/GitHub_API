@@ -8,28 +8,27 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use  App\Models\Repositorios;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class SearchController extends Controller
 {
 
     public function ServiceApi(Request $request) {
-
+        
         // Chamada para rpositorios
         $Search = $request->search; // nome pesquisado
-
-        $response = Http::withToken('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')->get("https://api.github.com/users/{$Search}/repos");
+        
+        $response = Http::withToken('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')->get("https://api.github.com/users/{$Search}/repos");
         $resjson = $response->json();
-        $repositorios = $resjson;
+        $repositorios = array_slice($resjson, 0, 10 );
         $quantRepositorios = count($repositorios); // quantidade de repositorios  
         
         // Save values
-        $reposSave = new Repositorios;
         
         foreach($repositorios as $repos){
             // Chamada para commits
-
-            $commitsUrl = Http::withtoken('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')->get("https://api.github.com/repos/{$Search}/{$repos['name']}/commits");
+            $reposSave = new Repositorios;
+   
+            $commitsUrl = Http::withtoken('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')->get("https://api.github.com/repos/{$Search}/{$repos['name']}/commits");
             $commitsRes = $commitsUrl->json();
             $commits = sizeof($commitsRes);
             $commit = strval($commits);
@@ -42,20 +41,38 @@ class SearchController extends Controller
             $reposSave->imagem = $repos['owner']['avatar_url'];
             $reposSave->commits = $commit;
 
-            if( $commit > 10 ) {
-                $verifyId = DB::table('repositorios')->where('url', '=' , '{$reposSave}')->get();
-                $verifyRes = count($verifyId);
+            $url = $repos['html_url'];
+
+           // $verifyId = DB::table('repositorios')->where('url', '=' , '{$url}')->get();
+            //$verifyRes = count($verifyId);
+            
+            $reposSave->save();
+
+            //dd($url);
+
+                //  Verifica se já não existe o mesmo repositorio cadastrodo
+
+            // if( $commit > 10 ) {
+            //     $verifyId = DB::table('repositorios')->where('url', '=' , '{$reposSave}')->get();
+            //     $verifyRes = count($verifyId);
                 
-                // // // Verifica se já não existe o mesmo repositorio cadastrodo
-                if($verifyRes !== 0) {
-                    $reposSave->save();
-                }
-            }
+            //     // // // Verifica se já não existe o mesmo repositorio cadastrodo
+            //     if($verifyRes !== 0) {
+            //     }
+            // }
+
+            
+
+
+            $reposResult = Repositorios::all();
         }
+
+        dd($reposSave);
+
 
         return view('Show_Repositorios', 
             [  
-                'repositorios' => $repositorios,
+                'repositorios' => $reposSave,
                 'search' => $Search, 
                 'commits' => $commit
             ]);
