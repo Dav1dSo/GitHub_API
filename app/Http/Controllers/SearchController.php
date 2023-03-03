@@ -17,7 +17,7 @@ class SearchController extends Controller
         // Chamada para rpositorios
         $Search = $request->search; // nome pesquisado
         
-        $response = Http::withToken('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')->get("https://api.github.com/users/{$Search}/repos");
+        $response = Http::withToken('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')->get("https://api.github.com/users/{$Search}/repos");
         $resjson = $response->json();
         $repositorios = array_slice($resjson, 0, 10 );
         $quantRepositorios = count($repositorios); // quantidade de repositorios  
@@ -28,7 +28,7 @@ class SearchController extends Controller
             // Chamada para commits
             $reposSave = new Repositorios;
    
-            $commitsUrl = Http::withtoken('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')->get("https://api.github.com/repos/{$Search}/{$repos['name']}/commits");
+            $commitsUrl = Http::withtoken('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')->get("https://api.github.com/repos/{$Search}/{$repos['name']}/commits");
             $commitsRes = $commitsUrl->json();
             $commits = sizeof($commitsRes);
             $commit = strval($commits);
@@ -43,26 +43,12 @@ class SearchController extends Controller
 
             $url = $repos['html_url'];
 
-           // $verifyId = DB::table('repositorios')->where('url', '=' , '{$url}')->get();
-            //$verifyRes = count($verifyId);
+            $verifyId = DB::table('repositorios')->where('url', '=' , "{$url}")->get();
+            $verifyRes = count($verifyId);
             
-            $reposSave->save();
-
-            //dd($url);
-
-                //  Verifica se já não existe o mesmo repositorio cadastrodo
-
-            // if( $commit > 10 ) {
-            //     $verifyId = DB::table('repositorios')->where('url', '=' , '{$reposSave}')->get();
-            //     $verifyRes = count($verifyId);
-                
-            //     // // // Verifica se já não existe o mesmo repositorio cadastrodo
-            //     if($verifyRes !== 0) {
-            //     }
-            // }
-
-            
-
+            if($verifyRes == 0 && $commit > 10 ){
+                $reposSave->save();
+            }
 
             $reposResult = Repositorios::all();
         }
