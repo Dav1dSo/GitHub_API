@@ -17,7 +17,7 @@ class SearchController extends Controller
         // Chamada para rpositorios
         $Search = $request->search; // nome pesquisado
         
-        $response = Http::withToken('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')->get("https://api.github.com/users/{$Search}/repos");
+        $response = Http::withToken('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')->get("https://api.github.com/users/{$Search}/repos");
         $resjson = $response->json();
         $repositorios = array_slice($resjson, 0, 10 );
         $quantRepositorios = count($repositorios); // quantidade de repositorios  
@@ -28,7 +28,7 @@ class SearchController extends Controller
             // Chamada para commits
             $reposSave = new Repositorios;
    
-            $commitsUrl = Http::withtoken('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')->get("https://api.github.com/repos/{$Search}/{$repos['name']}/commits");
+            $commitsUrl = Http::withtoken('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')->get("https://api.github.com/repos/{$Search}/{$repos['name']}/commits");
             $commitsRes = $commitsUrl->json();
             $commits = sizeof($commitsRes);
             $commit = strval($commits);
@@ -50,15 +50,13 @@ class SearchController extends Controller
                 $reposSave->save();
             }
 
-            $reposResult = Repositorios::all();
         }
-
-        dd($reposSave);
-
+        
+        $reposResult = Repositorios::all();
 
         return view('Show_Repositorios', 
             [  
-                'repositorios' => $reposSave,
+                'repositorios' => $reposResult,
                 'search' => $Search, 
                 'commits' => $commit
             ]);
