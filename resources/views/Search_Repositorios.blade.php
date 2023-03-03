@@ -5,7 +5,7 @@
 @foreach ( $repositorios as $repo) @endforeach
 
 <div class="col-lg-8 my-5 mx-auto">
-    <h1 class="display-5 text-center">Pesquisado: {{ $search }}</h1>
+    <h1 class="display-5 text-center">Última pesquisa: {{ $search }}</h1>
     <h2 class="text-center lead">Selecionados os 10 Primeiros repositórios !</h2>
     <img id="avatar" src="{{ $repo->imagem}}" alt="">
 </div> 

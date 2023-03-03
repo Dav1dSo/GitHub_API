@@ -14,24 +14,24 @@ class SearchController extends Controller
 
     public function ServiceApi(Request $request) {
         
-        // Chamada para rpositorios
+        // Chamada para repositorios
         $Search = $request->search; // nome pesquisado
         
-        $response = Http::withToken('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')->get("https://api.github.com/users/{$Search}/repos");
+        $response = Http::withToken('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')->get("https://api.github.com/users/{$Search}/repos");
         $resjson = $response->json();
         $repositorios = array_slice($resjson, 0, 10 );
         $quantRepositorios = count($repositorios); // quantidade de repositorios  
         
-        // Save values
-        
         foreach($repositorios as $repos){
+            
             // Chamada para commits
-            $reposSave = new Repositorios;
-   
-            $commitsUrl = Http::withtoken('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')->get("https://api.github.com/repos/{$Search}/{$repos['name']}/commits");
+            $commitsUrl = Http::withtoken('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')->get("https://api.github.com/repos/{$Search}/{$repos['name']}/commits");
             $commitsRes = $commitsUrl->json();
             $commits = sizeof($commitsRes);
             $commit = strval($commits);
+
+            // Save values
+            $reposSave = new Repositorios;
 
             $reposSave->node_id = $repos['id'];
             $reposSave->name = $repos['name'];
@@ -41,20 +41,23 @@ class SearchController extends Controller
             $reposSave->imagem = $repos['owner']['avatar_url'];
             $reposSave->commits = $commit;
 
+            // Captura url
             $url = $repos['html_url'];
 
+            // Select repositório por url
             $verifyId = DB::table('repositorios')->where('url', '=' , "{$url}")->get();
             $verifyRes = count($verifyId);
             
+            // Verifica quantidade de commits e existencia de repositorio ja cadastrado
             if($verifyRes == 0 && $commit > 10 ){
                 $reposSave->save();
             }
 
         }
-        
+        // retorno dos dados dobanco
         $reposResult = Repositorios::all();
 
-        return view('Show_Repositorios', 
+        return view('Search_Repositorios', 
             [  
                 'repositorios' => $reposResult,
                 'search' => $Search, 

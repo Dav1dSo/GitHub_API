@@ -21,7 +21,7 @@
     }
     
     #avatar {
-        margin-left: 40%;
+        margin-left: 41%;
         width: 200px;
     }
 
