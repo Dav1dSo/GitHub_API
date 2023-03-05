@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('url');
             $table->string('organizacao');
-            $table->string('linguagem')->nullable()->default('não especificada');
+            $table->string('linguagem')->default("não especificada")->nullable();
             $table->integer('commits');
             $table->string('imagem');
             $table->timestamps();
