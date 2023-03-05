@@ -18,12 +18,11 @@
 
 @section('10primeiros')
 
-@foreach ( $repositorios as $repo) @endforeach
+
 
 <div class="col-lg-8 my-5 mx-auto">
-    <h1 class="display-5 text-center">Última pesquisa: {{ $search }}</h1>
+    <h1 class="display-5 text-center">Linguagem pesquisada: {{ $reqFilter }}</h1>
     <h2 class="text-center lead">Selecionados os 10 Primeiros repositórios !</h2>
-    <img id="avatar" src="{{ $repo->imagem}}" alt="">
 </div> 
 <table id="table" class="table table-bordered">
     <thead class="thead-dark">
@@ -37,14 +36,14 @@
         </tr>
     </thead>
     <tbody> 
-        @foreach ($repositorios as $repo)
+        @foreach ($filters as $filter)
         <tr>
-            <td scope="row">{{ $repo->node_id }}</td>
-            <td> {{ $repo->name }} </td>
-            <td> {{ $repo->url }} </td>
-            <td> {{ $repo->organizacao }} </td>
-            <td> {{ $repo->linguagem }} </td>
-            <td> {{ $repo->commits }} </td>
+            <td scope="row">{{ $filter->node_id }}</td>
+            <td> {{ $filter->name }} </td>
+            <td> {{ $filter->url }} </td>
+            <td> {{ $filter->organizacao }} </td>
+            <td> {{ $filter->linguagem }} </td>
+            <td> {{ $filter->commits }} </td>
         </tr>
         @endforeach
     </tbody>
