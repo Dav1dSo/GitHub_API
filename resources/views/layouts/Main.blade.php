@@ -33,6 +33,12 @@
         padding: 0;
     }
 
+    #title a{
+        margin-top: 5vh;
+        display: flex;
+        justify-content: center;
+    }
+
     .d-flex {
         padding-top: 5vh;
         max-width: 750px;

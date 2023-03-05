@@ -17,7 +17,7 @@ class SearchController extends Controller
         // Chamada para repositorios
         $Search = $request->search; // nome pesquisado
         
-        $response = Http::withToken('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')->get("https://api.github.com/users/{$Search}/repos");
+        $response = Http::withToken('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')->get("https://api.github.com/users/{$Search}/repos");
         $resjson = $response->json();
         $repositorios = array_slice($resjson, 0, 10 );
         $quantRepositorios = count($repositorios); // quantidade de repositorios  
@@ -25,7 +25,7 @@ class SearchController extends Controller
         foreach($repositorios as $repos){
             
             // Chamada para commits
-            $commitsUrl = Http::withtoken('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')->get("https://api.github.com/repos/{$Search}/{$repos['name']}/commits");
+            $commitsUrl = Http::withtoken('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')->get("https://api.github.com/repos/{$Search}/{$repos['name']}/commits");
             $commitsRes = $commitsUrl->json();
             $commits = sizeof($commitsRes);
             $commit = strval($commits);
