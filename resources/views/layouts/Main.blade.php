@@ -52,6 +52,24 @@
         width: 60px;
     }
 
+    #search {
+        display: flex;
+        width: 200px;
+        margin-right: 12vw;
+    }
+
+    #search input {
+        margin: 10px;   
+        min-width: 300px;
+    }
+
+    #search button {
+        min-width: 80px;
+        height: 60px;
+        margin: 10px;   
+        
+    }
+
 </style>
 
 <body>

@@ -2,18 +2,17 @@
 
 @section('navbar')
   <nav id="navbar" class="navbar navbar-expand-lg bg-body-blue">
-      <div>
-          <img src="https://icones.pro/wp-content/uploads/2021/06/icone-github-orange.png" alt="">
-      </div>
-      <li type="none" class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Filtrar repositórios</a>
-          <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Javascript</a></li>
-              <li><a class="dropdown-item" href="#">Python</a></li>
-              <li><a class="dropdown-item" href="#">PHP</a></li>
-              <li><a class="dropdown-item" href="#"></a></li>
-          </ul>
-      </li>
+    <div>
+        <a href="/">
+            <img src="https://icones.pro/wp-content/uploads/2021/06/icone-github-orange.png" alt="">
+        </a>
+    </div>
+    <div>
+        <form action="/filterLanguage" id="search" class="form-inline">
+            <input class="form-control mr-sm-2" type="search" placeholder="Filter language" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
   </nav>
 @endsection
 
